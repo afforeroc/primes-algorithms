@@ -1,31 +1,33 @@
 #include <iostream> 	// cout
 #include <vector>   	// vector
-#include <string.h> 	// memset
-#include <time.h>		// clock, clock_t
-#include <stdio.h>		// printf
 #include <cmath>		// log10
 #include <fstream>		// ofstream
 #include <regex>		// regex
 using namespace std;
 
 // Functions
+void printTitle(string title);
 int naturalNumber();
 vector<int> SieveOfAtkin(int limit);
 void primes2txt(vector<int> vector_primes);
 void primes2terminal(vector<int> vector_primes);
 
 int main(){
-	cout << "-------------------------" << endl;
-	cout << "SIEVE OF ATKIN with array" << endl;
-	cout << "-------------------------" << endl;
-    int limit = 1e6;
+	printTitle("SIEVE OF ATKIN with array");
+    int limit = 1e9;
+    cout << "Limit is 1e" << log10(limit) << endl;
     vector<int> primes = SieveOfAtkin(limit);
-    int siz = primes.size();
-    cout << "Number of primes obtained is " << siz << endl;
-    cout << "Last prime number obtained is " << primes.at(siz-1) << endl;
+    cout << "Number of primes obtained is " << primes.size() << endl;
+    cout << "Last prime number obtained is " << primes.back() << endl;
     //random_shuffle(vector_primes.begin(), vector_primes.end());
     //primes2txt(primes);
     return 0;
+}
+
+void printTitle(string title){
+    for(int i=0; i<title.size(); i++){ cout << "-"; } cout << endl;
+    cout << title << endl;
+    for(int i=0; i<title.size(); i++){ cout << "-"; } cout << endl;
 }
 
 int naturalNumber(){
@@ -81,11 +83,11 @@ vector<int> SieveOfAtkin(int limit){
     return primes;
 }
 
-void primes2txt(vector<int> vector_primes){
+void primes2txt(vector<int> primes){
     ofstream outFile("primes.txt");
-    for (const auto &e : vector_primes) outFile << e << "\n";
+    for (const auto &e : primes) outFile << e << "\n";
 }
 
-void primes2terminal(vector<int> vector_primes){
-    for (const auto &e : vector_primes) cout << e << " ";
+void primes2terminal(vector<int> primes){
+    for (const auto &e : primes) cout << e << " ";
 }

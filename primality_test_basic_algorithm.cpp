@@ -6,50 +6,49 @@ using namespace std;
 
 // Functions
 void printTitle(string title);
-bool isPrime(int n);
+bool isPrimeB(int n);
 vector<int> testPrimalityBasic(int limit);
-void primes2txt(vector<int> vector_primes);
-void primes2terminal(vector<int> vector_primes);
+void primes2txt(vector<int> primes);
+void primes2terminal(vector<int> primes);
 
 int main(){
     printTitle("PRIMALITY TEST with basic algorithm");
-    int limit = 1e7;
-    cout << "The limit is 1e" << log10(limit) << endl;
+    int limit = 1e8;
+    cout << "Limit is 1e" << log10(limit) << endl;
     vector<int> primes = testPrimalityBasic(limit);
-    int siz = primes.size();
-    cout << "Number of primes obtained is " << siz << endl;
-    cout << "Last prime number obtained is " << primes.at(siz-1) << endl;
+    cout << "Number of primes obtained is " << primes.size() << endl;
+    cout << "Last prime number obtained is " << primes.back() << endl;
+    //primes2terminal(primes);
     return 0;
 }
 
 void printTitle(string title){
-    int siz = title.size();
-    for(int i=0; i<siz; i++){ cout << "-"; } cout << endl;
+    for(int i=0; i<title.size(); i++){ cout << "-"; } cout << endl;
     cout << title << endl;
-    for(int i=0; i<siz; i++){ cout << "-"; } cout << endl;
+    for(int i=0; i<title.size(); i++){ cout << "-"; } cout << endl;
 }
 
-bool isPrime(int n){
-    bool resp = true;
-    int a = floor(sqrt(n));
-    for(int i=3; i<=a; i+=2){
+bool isPrimeB(int n){
+    int k = n+1;
+    for(int i=3; i*i<k; i+=2){
         if(n%i == 0){ return false; }
     }
+    return true;
 }
 
 vector<int> testPrimalityBasic(int limit){
-    vector<int> primes; primes.push_back(2);
-    for(int n=3; n<limit; n+=2){
-        if(isPrime(n)){ primes.push_back(n); }
+    vector<int> primes;
+    for(int n=1; n<limit; n+=2){
+        if(isPrimeB(n)){ primes.push_back(n); }
     }
     return primes;
 }
 
-void primes2txt(vector<int> vector_primes){
+void primes2txt(vector<int> primes){
     ofstream outFile("primes.txt");
-    for (const auto &e : vector_primes) outFile << e << "\n";
+    for (const auto &e : primes) outFile << e << "\n";
 }
 
-void primes2terminal(vector<int> vector_primes){
-    for (const auto &e : vector_primes) cout << e << " ";
+void primes2terminal(vector<int> primes){
+    for (const auto &e : primes) cout << e << " ";
 }
