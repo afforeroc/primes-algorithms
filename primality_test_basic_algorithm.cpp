@@ -20,7 +20,7 @@ int main(){
     cout << "Number of primes obtained is " << siz << endl;
     cout << "Last prime number obtained is " << primes.at(siz-1) << endl;
     return 0;
-    }
+}
 
 void printTitle(string title){
     int siz = title.size();
