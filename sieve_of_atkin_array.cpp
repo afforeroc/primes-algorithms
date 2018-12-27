@@ -3,6 +3,12 @@
 #include <cmath>		// log10
 #include <fstream>		// ofstream
 #include <regex>		// regex
+
+#define WINVER 0x0500
+#include <windows.h>
+
+#define DIV (1024*1024*1014) // Use to convert bytes to GB
+
 using namespace std;
 
 // Functions
@@ -11,16 +17,27 @@ int naturalNumber();
 vector<int> SieveOfAtkin(int limit);
 void primes2txt(vector<int> vector_primes);
 void primes2terminal(vector<int> vector_primes);
+double availableRAM(){
+    MEMORYSTATUSEX statex;
+    statex.dwLength = sizeof (statex);
+    GlobalMemoryStatusEx (&statex);
+    return statex.ullAvailPhys*1.0/DIV;
+}
 
 int main(){
 	printTitle("SIEVE OF ATKIN with array");
-    int limit = 1e9;
-    cout << "Limit is 1e" << log10(limit) << endl;
+    //long limit = 1e10;
+    //cout << "Limit is " << limit << endl;
+
+    cout << availableRAM() << endl;
+    cout << 1e10*sizeof(bool)*1.0/DIV << endl;
+    /*
     vector<int> primes = SieveOfAtkin(limit);
     cout << "Number of primes obtained is " << primes.size() << endl;
     cout << "Last prime number obtained is " << primes.back() << endl;
     //random_shuffle(vector_primes.begin(), vector_primes.end());
     //primes2txt(primes);
+    */
     return 0;
 }
 

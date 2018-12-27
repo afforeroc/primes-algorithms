@@ -30,7 +30,7 @@ void printTitle(string title){
 
 bool isPrimeB(int n){
     int k = n+1;
-    for(int i=3; i*i<k; i+=2){
+    for(int i=3; i*i<k; i+=2){ // It's better i*i than sqrt(n)
         if(n%i == 0){ return false; }
     }
     return true;
