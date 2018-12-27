@@ -1,8 +1,8 @@
-#include <iostream> 	// cout
-#include <vector>   	// vector
-#include <cmath>		// log10
-#include <fstream>		// ofstream
-#include <regex>		// regex
+#include <iostream> // cout
+#include <vector>   // vector
+#include <cmath>    // log10
+#include <fstream>  // ofstream
+#include <regex>    // regex
 
 #define WINVER 0x0500
 #include <windows.h>
@@ -14,30 +14,33 @@ using namespace std;
 // Functions
 void printTitle(string title);
 int naturalNumber();
+double bool2Memory(unsigned long limit);
+double freeMemory();
 vector<int> SieveOfAtkin(int limit);
 void primes2txt(vector<int> vector_primes);
 void primes2terminal(vector<int> vector_primes);
-double availableRAM(){
-    MEMORYSTATUSEX statex;
-    statex.dwLength = sizeof (statex);
-    GlobalMemoryStatusEx (&statex);
-    return statex.ullAvailPhys*1.0/DIV;
-}
+
 
 int main(){
 	printTitle("SIEVE OF ATKIN with array");
-    //long limit = 1e10;
-    //cout << "Limit is " << limit << endl;
+	unsigned long limit = ULONG_MAX; // INT_MAX, ULONG_MAX
+    cout << "Limit is " << limit << endl;
+    double requiredMemory = bool2Memory(limit);
+    double availableMemory = freeMemory();
 
-    cout << availableRAM() << endl;
-    cout << 1e10*sizeof(bool)*1.0/DIV << endl;
-    /*
+    printf ("Required memory is %.2f GB\n", requiredMemory);
+    printf ("Available memory is %.2f GB\n", availableMemory);
+
+    if(requiredMemory  >= availableMemory){
+        cout << "There is not enough memory" << endl;
+
+    }
+
     vector<int> primes = SieveOfAtkin(limit);
     cout << "Number of primes obtained is " << primes.size() << endl;
     cout << "Last prime number obtained is " << primes.back() << endl;
     //random_shuffle(vector_primes.begin(), vector_primes.end());
-    //primes2txt(primes);
-    */
+    primes2txt(primes);
     return 0;
 }
 
@@ -60,6 +63,17 @@ int naturalNumber(){
 	int limit = stoi(line);
 	return limit;
 }
+
+double bool2Memory(unsigned long limit){
+    return limit*sizeof(bool)*1.0/DIV;
+}
+double freeMemory(){
+    MEMORYSTATUSEX statex;
+    statex.dwLength = sizeof (statex);
+    GlobalMemoryStatusEx (&statex);
+    return statex.ullAvailPhys*1.0/DIV;
+}
+
 
 vector<int> SieveOfAtkin(int limit){
     bool *sieve = new bool [limit]; 		// Create the sieve array
