@@ -18,9 +18,9 @@ void primes2txt(vector<long long> vector_primes);
 void primes2terminal(vector<long long> vector_primes);
 
 int main(){
-	printTitle("SIEVE OF ATKIN with array");
-	cout << "LLONG_MAX is\t" << LLONG_MAX << endl;
-	long long limit = 1e10; // LONG_MAX, ULONG_MAX
+    printTitle("SIEVE OF ATKIN with array");
+    cout << "LLONG_MAX is\t" << LLONG_MAX << endl;
+    long long limit = 1e10; // LONG_MAX, ULONG_MAX
     cout << "Limit is\t" << limit << endl;
     double requiredMemory = bool2Memory(limit);
     double availableMemory = freeMemory();
@@ -31,7 +31,7 @@ int main(){
     cout << "Number of primes obtained is " << primes.size() << endl;
     cout << "Last prime number obtained is " << primes.back() << endl;
     //random_shuffle(vector_primes.begin(), vector_primes.end());
-    //primes2txt(primes);
+    primes2txt(primes);
     return 0;
 }
 
@@ -43,16 +43,16 @@ void printTitle(string title){
 
 long long naturalNumber(){
     string line;
-	regex positive_integer("([0-9]+)", regex::extended);
+    regex positive_integer("([0-9]+)", regex::extended);
 	while(true){
-		cout<<"Input integer [1 < n < 1e10]: "; cin >> line;
-		if(!cin) break;
-		if(line == "q") break;
-		if(regex_match(line, positive_integer) && stoll(line)>1 && stoll(line)<1e10) break;
-		else cout<<"Invalid input"<<endl;
-	}
-	long long limit = stoi(line);
-	return limit;
+        cout<<"Input integer [1 < n < 1e10]: "; cin >> line;
+        if(!cin) break;
+        if(line == "q") break;
+        if(regex_match(line, positive_integer) && stoll(line)>1 && stoll(line)<1e10) break;
+        else cout<<"Invalid input"<<endl;
+    }
+    long long limit = stoi(line);
+    return limit;
 }
 
 double bool2Memory(long long limit){
@@ -67,6 +67,7 @@ double freeMemory(){
 }
 
 vector<long long> sieveOfAtkin(long long limit){
+    cout << "Stage - Sieve of Atkin execution: ";
     bool *sieve = new bool [limit]; 		// Create the sieve array
     memset(sieve, 0, limit*sizeof(bool)); 	// Initialize the sieve array with false values
     sieve[2] = true;
@@ -85,24 +86,26 @@ vector<long long> sieveOfAtkin(long long limit){
             if (x > y && n <= limit && n % 12 == 11){ sieve[n] ^= true; }
         }
     }
+    cout << "complete!" << endl;
 
-    cout << "Corte I" << endl;
 
     // Mark all multiples of squares as non-prime
+    cout << "Stage - Mark all multiples of squares as non-prime: ";
     for (long long r = 5; r*r < limit; r++){
         if (sieve[r]){
             //i>0, if r*r or i += r*r overflow the max value of type data
             for (long long i = r*r; i> 0 && i < limit && i; i += r*r){ sieve[i] = false; }
          }
     }
-    cout << "Corte II" << endl;
+    cout << "complete!" << endl;
 
     // Construct vector of primes
+    cout << "Stage - Construct vector of primes: ";
     vector<long long> primes;
     for (long long a = 0; a < limit; a++){
         if (sieve[a]){ primes.push_back(a); }
     }
-    cout << "Corte III" << endl;
+    cout << "complete!" << endl;
 
     // Deallocate memory block
     delete [] sieve;
@@ -110,8 +113,10 @@ vector<long long> sieveOfAtkin(long long limit){
 }
 
 void primes2txt(vector<long long> primes){
+    cout << "Stage - Save primes in TXT: ";
     ofstream outFile("primes.txt");
     for (const auto &e : primes) outFile << e << "\n";
+    cout << "complete!" << endl;
 }
 
 void primes2terminal(vector<long long> primes){
